@@ -15,9 +15,9 @@
 
 <body>
 <div class="container">
-    <h1>HELLO WORLD</h1>
     <?php
-    require_once "./core-1/core-1.php"
+//    require_once "./core-1/core-1.php";
+    require_once "./core-4/core-4.php";
     ?>
 
 </div>
