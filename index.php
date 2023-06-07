@@ -15,10 +15,11 @@
 
 <body>
 <div class="container">
-    <h1>HELLO WORLD</h1>
-    <?php
-    require_once "./core-1/core-1.php"
-    ?>
+   <pre>
+        <?php
+        require_once "./core-158/core-158.php"
+        ?>
+   </pre>
 
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
