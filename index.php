@@ -15,9 +15,20 @@
 
 <body>
 <div class="container">
-       <pre>
-           <?php include_once "./core-255/form.php" ?>
-       </pre>
+    <?php
+    session_start();
+    $session_auth = $_SESSION['auth'];
+    ?>
+    <?php if (!empty($session_auth)): ?>
+        <p><?="Your login is {$session_auth['login']}"?></p>
+        <a href="/core-374/logout.php">Logout</a>
+    <?php endif; ?>
+
+    <?php if (empty($session_auth)): ?>
+        <p>You are not authorized, please login</p>
+        <a href="/core-374/login.php">Login</a>
+    <?php endif; ?>
+
 
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
