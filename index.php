@@ -16,19 +16,28 @@
 <body>
 <div class="container">
     <?php
+
     session_start();
     $session_auth = $_SESSION['auth'];
+    $session_flash = $_SESSION['flash'] ?? [];
     ?>
     <?php if (!empty($session_auth)): ?>
-        <p><?="Your login is {$session_auth['login']}"?></p>
+        <p><?= "Your login is {$session_auth['login']}" ?></p>
         <a href="/core-374/logout.php">Logout</a>
     <?php endif; ?>
 
     <?php if (empty($session_auth)): ?>
-        <p>You are not authorized, please login</p>
+        <p>You are not authorized, please login or registration</p>
         <a href="/core-374/login.php">Login</a>
+        <a href="/core-379/registration.php">registration</a>
     <?php endif; ?>
 
+    <?php if (!empty($session_flash)): ?>
+        <?php foreach ($session_flash as $key => $flash): ?>
+            <p><?= "FLASH: $flash" ?></p>
+            <?php unset($_SESSION['flash'][$key]) ?>
+        <?php endforeach; ?>
+    <?php endif; ?>
 
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
