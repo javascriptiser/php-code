@@ -2,7 +2,7 @@
 
 namespace Amasty\core\Database;
 
-abstract class Abstract_DB
+abstract class Abstract_DB implements IDBConnection
 {
     protected string $host;
     protected string $user_name;
@@ -16,6 +16,4 @@ abstract class Abstract_DB
         $this->password = $password;
         $this->database_name = $database_name;
     }
-
-    abstract public function connect();
 }

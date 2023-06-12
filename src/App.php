@@ -3,7 +3,7 @@
 namespace Amasty;
 
 use Amasty\core\Database\Abstract_DB;
-use Amasty\core\View\View;
+use Amasty\core\Router\Router;
 use mysql_xdevapi\Exception;
 
 class App
@@ -23,7 +23,9 @@ class App
             echo $exception->getMessage();
         }
 
-        $view = new View('default', 'test_view', ['example'=>'example_text']);
+        $uri = $_SERVER['REQUEST_URI'];
+        $view = Router::start($uri);
+
         echo $view->render();
     }
 }

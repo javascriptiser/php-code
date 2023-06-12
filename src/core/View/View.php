@@ -11,8 +11,8 @@ class View
 
     public function __construct(string $layout = 'default', string $view = "", $data = [])
     {
-        $this->layout = $layout;
-        $this->view = $view;
+        $this->layout = (!empty($layout)) ? $layout : 'default';
+        $this->view = (!empty($view)) ? $view : '';
         $this->data = $data;
     }
 
@@ -37,7 +37,6 @@ class View
 
     private function renderView()
     {
-        if (empty($this->view)) return "";
         $view_path = $_SERVER['DOCUMENT_ROOT'] . "/src/views/$this->view.php";
 
         if (file_exists($view_path)) {
