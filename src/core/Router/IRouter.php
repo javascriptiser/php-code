@@ -2,9 +2,9 @@
 
 namespace Amasty\core\Router;
 
-use Amasty\core\View\View;
+use mysqli;
 
 interface IRouter
 {
-    public static function start(string $uri): View;
+    public static function start(string $uri, mysqli $conn);
 }

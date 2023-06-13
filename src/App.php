@@ -3,14 +3,15 @@
 namespace Amasty;
 
 use Amasty\core\Database\Abstract_DB;
+use Amasty\core\MysqlConnect;
 use Amasty\core\Router\Router;
 use mysql_xdevapi\Exception;
 
 class App
 {
-    private Abstract_DB $database;
+    private MysqlConnect $database;
 
-    public function __construct(Abstract_DB $database)
+    public function __construct(MysqlConnect $database)
     {
         $this->database = $database;
     }
@@ -18,14 +19,17 @@ class App
     public function bootstrap()
     {
         try {
-            $this->database->connect();
+            $conn = $this->database->connect();
+            $uri = $_SERVER['REQUEST_URI'];
+
+            $response = Router::start($uri, $conn);
+
+            echo $response;
+
         } catch (Exception $exception) {
             echo $exception->getMessage();
         }
 
-        $uri = $_SERVER['REQUEST_URI'];
-        $view = Router::start($uri);
 
-        echo $view->render();
     }
 }

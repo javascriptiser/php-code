@@ -6,6 +6,7 @@
   },
   "require": {
     "ext-mysqli": "*",
-    "ext-mysql_xdevapi": "*"
+    "ext-mysql_xdevapi": "*",
+    "ext-json": "*"
   }
 }
