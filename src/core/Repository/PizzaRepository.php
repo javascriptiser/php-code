@@ -32,4 +32,15 @@ class PizzaRepository
 
         return $pizzas;
     }
+
+    public function getOneById(int $id): PizzaDTO
+    {
+        $query = "SELECT * FROM pizzas WHERE id = $id";
+        $result = $this->conn->query($query);
+        $row = $result->fetch_assoc();
+
+        return new PizzaDTO((int)$row['id'], $row['name'], (float)$row['base_price']);
+    }
+
+
 }

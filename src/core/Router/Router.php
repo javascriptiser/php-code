@@ -8,6 +8,7 @@ use Amasty\core\Models\Size;
 use Amasty\core\Repository\PizzaRepository;
 use Amasty\core\Repository\PizzaSaucesRepository;
 use Amasty\core\Repository\PizzaSizesRepository;
+use Amasty\helpers\NB_RB;
 use mysqli;
 
 class Router implements IRouter
@@ -38,7 +39,7 @@ class Router implements IRouter
                     'sauces' => $saucesDTO,
                 ];
 
-                return json_encode($data);
+                return json_encode($data, JSON_UNESCAPED_UNICODE);
             }
             case '/api/select/order/' :
             {
@@ -46,24 +47,17 @@ class Router implements IRouter
                 $size_id = (int)$_POST['sizes'];
                 $sauce_id = (int)$_POST['sauces'];
 
-                $query = "SELECT * FROM pizza_sauces WHERE id = $sauce_id";
-                $result = $conn->query($query);
-                $row = $result->fetch_assoc();
-                $sauce = new Sauce((int)$row['id'], $row['name'], (float)$row['additional_price']);
+                $sauce_dto = (new PizzaSaucesRepository($conn))->getOneById($sauce_id);
+                $sauce = new Sauce($sauce_dto->id, $sauce_dto->name, $sauce_dto->price);
 
-                $query = "SELECT * FROM pizza_sizes WHERE id = $size_id";
-                $result = $conn->query($query);
-                $row = $result->fetch_assoc();
-                $size = new Size((int)$row['id'], $row['size'], (float)$row['additional_price']);
+                $size_dto = (new PizzaSizesRepository($conn))->getOneById($size_id);
+                $size = new Size($size_dto->id, $size_dto->name, $size_dto->price);
 
-                $query = "SELECT * FROM pizzas WHERE id = $pizza_id";
-                $result = $conn->query($query);
-                $row = $result->fetch_assoc();
-                $pizza = new Pizza((int)$row['id'], $row['name'], (float)$row['base_price'], [$sauce]);
-                $pizza->addIngredient($size);
+                $pizza_dto = (new PizzaRepository($conn))->getOneById($pizza_id);
 
+                $pizza = new Pizza($pizza_dto->id, $pizza_dto->name, $pizza_dto->price, [$size, $sauce]);
 
-                return json_encode($pizza);
+                return json_encode(['pizza' => $pizza, 'usd_rate' => NB_RB::getRate()], JSON_UNESCAPED_UNICODE);
 
 
             }

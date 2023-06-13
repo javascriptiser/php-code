@@ -14,30 +14,49 @@ export const initSelect = (url) => {
                     addOptionsToSelect(selectElements[key], value);
                 }
             }
-        },
-        error: function (xhr, status, error) {
-            console.error(error);
         }
     });
 
-    $('#order-form').submit(function(event) {
-        // Отмена стандартного поведения формы
+    $('#order-form').submit(function (event) {
         event.preventDefault();
 
-        // Получение данных из формы
         const formData = $(this).serialize();
-
-        // Отправка данных на обработчик PHP с использованием Ajax
         $.ajax({
-            url: '/api/select/order/', // Путь к обработчику PHP
-            type: 'POST', // Метод отправки данных
-            data: formData, // Данные формы
-            success: function(response) {
-                console.log(response);
-            },
-            error: function(xhr, status, error) {
-                // Обработка ошибок при отправке запроса
-                console.log(error); // Вывод ошибки в консоль
+            url: '/api/select/order/',
+            type: 'POST',
+            data: formData,
+            success: function (response) {
+                const {pizza, usd_rate} = response;
+                let {total_price: usd_price, ingredients} = pizza;
+                const byn_price = (usd_price * usd_rate).toFixed(2);
+
+
+                let cardHtml = '<div class="card">';
+                cardHtml += '<div class="card-body">';
+                cardHtml += '<h5 class="card-title">' + pizza.name + '</h5>';
+                cardHtml += '<div class="card-text">';
+                cardHtml += '<p>ID: ' + pizza.id + '</p>';
+                cardHtml += '<p>Название: ' + pizza.name + '</p>';
+
+
+                ingredients.forEach(function (ingredient) {
+                    const ingredientKey = Object.keys(ingredient)[0];
+                    const ingredientData = ingredient[ingredientKey];
+                    cardHtml += '<p>' + ingredientKey + ':</p>';
+                    cardHtml += '<ul>';
+                    ingredientData.forEach(item => {
+                        cardHtml += '<li>Название: ' + item.name + '</li>';
+                    });
+                    cardHtml += '</ul>';
+                });
+
+                cardHtml += '<p>Общая стоимость в USD: ' + usd_price + '</p>';
+                cardHtml += '<p>Общая стоимость в BYN: ' + byn_price + '</p>';
+                cardHtml += '</div>';
+                cardHtml += '</div>';
+                cardHtml += '</div>';
+
+                $('#order-summary').html(cardHtml);
             }
         });
     });

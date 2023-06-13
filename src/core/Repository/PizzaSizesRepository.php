@@ -3,6 +3,7 @@
 namespace Amasty\core\Repository;
 
 use Amasty\core\DTO\SelectDTO;
+use Amasty\core\DTO\SizeDTO;
 use mysqli;
 
 class PizzaSizesRepository
@@ -31,5 +32,13 @@ class PizzaSizesRepository
         }
 
         return $sizes;
+    }
+
+    public function getOneById(int $id): SizeDTO
+    {
+        $query = "SELECT * FROM pizza_sizes WHERE id = $id";
+        $result = $this->conn->query($query);
+        $row = $result->fetch_assoc();
+        return new SizeDTO((int)$row['id'], $row['size'], (float)$row['additional_price']);
     }
 }

@@ -9,4 +9,11 @@ class Sauce extends Ingredient
         parent::__construct($id, $name, $price);
     }
 
+    public function jsonSerialize(): array
+    {
+        return ['sauce' => [
+            parent::jsonSerialize()
+        ]];
+    }
+
 }

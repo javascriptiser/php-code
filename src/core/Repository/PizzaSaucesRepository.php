@@ -3,6 +3,7 @@
 namespace Amasty\core\Repository;
 
 use Amasty\core\DTO\PizzaDTO;
+use Amasty\core\DTO\SauceDTO;
 use Amasty\core\DTO\SelectDTO;
 use mysqli;
 
@@ -15,6 +16,9 @@ class PizzaSaucesRepository
         $this->conn = $conn;
     }
 
+    /**
+     * @return SauceDTO[]
+     */
     public function getAllPizzaSauces(): array
     {
         $query = "SELECT * FROM pizza_sauces";
@@ -32,5 +36,13 @@ class PizzaSaucesRepository
         }
 
         return $sauces;
+    }
+
+    public function getOneById(int $id): SauceDTO
+    {
+        $query = "SELECT * FROM pizza_sauces WHERE id = $id";
+        $result = $this->conn->query($query);
+        $row = $result->fetch_assoc();
+        return new SauceDTO((int)$row['id'], $row['name'], (float)$row['additional_price']);
     }
 }

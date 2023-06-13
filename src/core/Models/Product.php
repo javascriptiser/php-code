@@ -43,7 +43,9 @@ class Product implements JsonSerializable
     {
         $price = $this->base_price;
         foreach ($this->ingredients as $ingredient) {
-            $price += $ingredient->getPrice();
+            if ($ingredient instanceof Ingredient) {
+                $price += $ingredient->getPrice();
+            }
         }
         return round($price, 2);
     }
