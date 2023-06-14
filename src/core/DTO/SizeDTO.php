@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Amasty\core\DTO;
 
@@ -6,10 +7,10 @@ class SizeDTO extends DTO
 {
     public int $id;
 
-    public string $name;
+    public int $name;
     public float $price;
 
-    public function __construct(int $id, string $name, float $price)
+    public function __construct(int $id, int $name, float $price)
     {
         $this->id = $id;
         $this->name = $name;
@@ -19,9 +20,9 @@ class SizeDTO extends DTO
     public function jsonSerialize(): array
     {
         return [
-            'id'=>$this->id,
-            'name'=>$this->name,
-            'price'=>$this->price,
+            'id' => $this->id,
+            'name' => $this->name,
+            'price' => $this->price,
         ];
     }
 }

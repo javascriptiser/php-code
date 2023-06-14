@@ -1,7 +1,9 @@
 <?php
+declare(strict_types=1);
 
-namespace Amasty\core\Models;
+namespace Amasty\core\Models\Products;
 
+use Amasty\core\Models\Ingredients\Ingredient;
 use JsonSerializable;
 
 class Product implements JsonSerializable

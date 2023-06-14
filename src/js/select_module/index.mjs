@@ -10,7 +10,7 @@ export const initSelect = (url) => {
             };
 
             for (const [key, value] of Object.entries(response)) {
-                if (selectElements[key]) {
+                    if (selectElements[key]) {
                     addOptionsToSelect(selectElements[key], value);
                 }
             }
@@ -64,7 +64,7 @@ export const initSelect = (url) => {
 
 const addOptionsToSelect = (selectElement, data) => {
     data.forEach(item => {
-        const option = '<option value="' + item.key + '">' + item.value + '</option>';
+        const option = '<option value="' + item.id + '">' + item.name + '</option>';
         selectElement.append(option);
     });
 }

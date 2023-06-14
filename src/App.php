@@ -1,8 +1,8 @@
 <?php
+declare(strict_types=1);
 
 namespace Amasty;
 
-use Amasty\core\Database\Abstract_DB;
 use Amasty\core\MysqlConnect;
 use Amasty\core\Router\Router;
 use mysql_xdevapi\Exception;
@@ -29,7 +29,5 @@ class App
         } catch (Exception $exception) {
             echo $exception->getMessage();
         }
-
-
     }
 }

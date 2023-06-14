@@ -1,9 +1,7 @@
 <?php
+declare(strict_types=1);
 
 namespace Amasty\core\DTO;
-
-use Amasty\core\Models\Ingredient;
-use Amasty\core\Models\Pizza;
 
 class PizzaDTO extends DTO
 {

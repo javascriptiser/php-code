@@ -1,12 +1,12 @@
 <?php
 
-namespace Amasty\core\Models;
+namespace Amasty\core\Models\Ingredients;
 
 class Size extends Ingredient
 {
-    public function __construct(int $id, string $name, float $price)
+    public function __construct(int $id, int $name, float $price)
     {
-        parent::__construct($id, $name, $price);
+        parent::__construct($id, (string)$name, $price);
     }
 
     public function jsonSerialize(): array

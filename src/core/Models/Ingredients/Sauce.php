@@ -1,6 +1,7 @@
 <?php
+declare(strict_types=1);
 
-namespace Amasty\core\Models;
+namespace Amasty\core\Models\Ingredients;
 
 class Sauce extends Ingredient
 {

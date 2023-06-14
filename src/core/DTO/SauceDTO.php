@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Amasty\core\DTO;
 
@@ -18,9 +19,9 @@ class SauceDTO extends DTO
     public function jsonSerialize(): array
     {
         return [
-            'id'=>$this->id,
-            'name'=>$this->name,
-            'price'=>$this->price,
+            'id' => $this->id,
+            'name' => $this->name,
+            'price' => $this->price,
         ];
     }
 }

@@ -1,10 +1,11 @@
 <?php
+declare(strict_types=1);
 
 namespace Amasty\core\Router;
 
-use Amasty\core\Models\Pizza;
-use Amasty\core\Models\Sauce;
-use Amasty\core\Models\Size;
+use Amasty\core\Models\Ingredients\Sauce;
+use Amasty\core\Models\Ingredients\Size;
+use Amasty\core\Models\Products\Pizza;
 use Amasty\core\Repository\PizzaRepository;
 use Amasty\core\Repository\PizzaSaucesRepository;
 use Amasty\core\Repository\PizzaSizesRepository;
@@ -20,18 +21,16 @@ class Router implements IRouter
         header("Access-Control-Allow-Methods: POST");
 
         switch ($uri) {
-            case '':
             case '/api/select/init/' :
             {
-
                 $pizza_repository = new PizzaRepository($conn);
-                $pizzasDTO = $pizza_repository->getAllPizzas();
+                $pizzasDTO = $pizza_repository->findMany();
 
                 $sizes_repository = new PizzaSizesRepository($conn);
-                $sizesDTO = $sizes_repository->getAllPizzaSizes();
+                $sizesDTO = $sizes_repository->findMany();
 
                 $sauces_repository = new PizzaSaucesRepository($conn);
-                $saucesDTO = $sauces_repository->getAllPizzaSauces();
+                $saucesDTO = $sauces_repository->findMany();
 
                 $data = [
                     'pizzas' => $pizzasDTO,
@@ -44,22 +43,24 @@ class Router implements IRouter
             case '/api/select/order/' :
             {
                 $pizza_id = (int)$_POST['pizza'];
-                $size_id = (int)$_POST['sizes'];
-                $sauce_id = (int)$_POST['sauces'];
+                settype($pizza_id, 'integer');
 
-                $sauce_dto = (new PizzaSaucesRepository($conn))->getOneById($sauce_id);
+                $size_id = (int)$_POST['sizes'];
+                settype($size_id, 'integer');
+
+                $sauce_id = (int)$_POST['sauces'];
+                settype($sauce_id, 'integer');
+
+                $sauce_dto = (new PizzaSaucesRepository($conn))->findOneById($sauce_id);
                 $sauce = new Sauce($sauce_dto->id, $sauce_dto->name, $sauce_dto->price);
 
-                $size_dto = (new PizzaSizesRepository($conn))->getOneById($size_id);
+                $size_dto = (new PizzaSizesRepository($conn))->findOneById($size_id);
                 $size = new Size($size_dto->id, $size_dto->name, $size_dto->price);
 
-                $pizza_dto = (new PizzaRepository($conn))->getOneById($pizza_id);
-
+                $pizza_dto = (new PizzaRepository($conn))->findOneById($pizza_id);
                 $pizza = new Pizza($pizza_dto->id, $pizza_dto->name, $pizza_dto->price, [$size, $sauce]);
 
                 return json_encode(['pizza' => $pizza, 'usd_rate' => NB_RB::getRate()], JSON_UNESCAPED_UNICODE);
-
-
             }
             default:
                 header("HTTP/1.1 404 Not Found");

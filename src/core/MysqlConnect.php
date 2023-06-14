@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Amasty\core;
 
@@ -14,10 +15,10 @@ class MysqlConnect implements IDBConnection
 
     public function __construct(string $host, string $user_name, string $password, string $database_name)
     {
-        $this->host=$host;
-        $this->user_name=$user_name;
-        $this->password=$password;
-        $this->database_name=$database_name;
+        $this->host = $host;
+        $this->user_name = $user_name;
+        $this->password = $password;
+        $this->database_name = $database_name;
     }
 
     public function connect()
@@ -28,6 +29,8 @@ class MysqlConnect implements IDBConnection
             !empty($this->database_name)
         ) {
             return mysqli_connect($this->host, $this->user_name, $this->password, $this->database_name);
-        } else throw new Error("Ошибка подключения к базе данных");
+        } else {
+            throw new Error("Ошибка подключения к базе данных");
+        }
     }
 }

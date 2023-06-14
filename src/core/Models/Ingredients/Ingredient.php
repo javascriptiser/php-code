@@ -1,6 +1,7 @@
 <?php
+declare(strict_types=1);
 
-namespace Amasty\core\Models;
+namespace Amasty\core\Models\Ingredients;
 
 use JsonSerializable;
 
@@ -17,20 +18,9 @@ abstract class Ingredient implements JsonSerializable
         $this->name = $name;
     }
 
-
     function getPrice(): float
     {
         return $this->price;
-    }
-
-    function getName(): string
-    {
-        return $this->name;
-    }
-
-    function getId(): int
-    {
-        return $this->id;
     }
 
     public function jsonSerialize(): array

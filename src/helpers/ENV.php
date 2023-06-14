@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace Amasty\helpers;
 class ENV
 {
@@ -23,6 +25,7 @@ class ENV
 
             $env_variables[$key] = $value;
         }
+
         return $env_variables;
     }
 }
